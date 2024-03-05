@@ -9,47 +9,66 @@ public class Main {
         String[][] maze = getMaze("data/MazeData");
         ArrayList<Integer> rowCoordinates = new ArrayList<Integer>();
         ArrayList<Integer> columnCoordinates = new ArrayList<Integer>();
-        for (int row = 0; row < maze.length; row++) {
-            for (int column = 0; column < maze[row].length; column++) {
-                System.out.print("(" + row + ", " + column + ") -> ");
-                rowCoordinates.add(row);
-                columnCoordinates.add(column);
-                if (row + 1 < maze.length && maze[row + 1][column].equals(".")) {
-                    boolean tileWalked = false;
-                    for (int i = 0; i < rowCoordinates.size(); i++) {
-                        if (rowCoordinates.get(i) == row + 1 && columnCoordinates.get(i) == column) {
-                            tileWalked = true;
-                        }
-                    }
-                    if (!tileWalked) {
-                        row++;
-                        column--;
-                    }
-                }
-                else if (row - 1 >= 0 && maze[row-1][column].equals(".")) {
-                    boolean tileWalked = false;
-                    for (int i = 0; i < rowCoordinates.size(); i++) {
-                        if (rowCoordinates.get(i) == row - 1 && columnCoordinates.get(i) == column) {
-                            tileWalked = true;
-                        }
-                    }
-                    if (!tileWalked) {
-                        row--;
-                        column--;
+        int row = 0;
+        int column = 0;
+        int endRow = maze.length - 1;
+        int endColumn = maze[0].length - 1;
+        System.out.println("(" + row + ", " + column + ")");
+
+        while (row != endRow || column != endColumn) {
+            rowCoordinates.add(row);
+            columnCoordinates.add(column);
+            boolean moved = false;
+            if (!moved && row - 1 >= 0 && maze[row-1][column].equals(".")) {
+                boolean visitedTile = false;
+                for (int i = 0; i < rowCoordinates.size(); i++) {
+                    if (rowCoordinates.get(i) == row - 1 && columnCoordinates.get(i) == column) {
+                        visitedTile = true;
                     }
                 }
-                else if (column - 1 >= 0 && maze[row][column - 1].equals(".")) {
-                    boolean tileWalked = false;
-                    for (int i = 0; i < rowCoordinates.size(); i++) {
-                        if (rowCoordinates.get(i) == row && columnCoordinates.get(i) == column - 1) {
-                            tileWalked = true;
-                        }
-                    }
-                    if (!tileWalked) {
-                        column-=2;
-                    }
+                if (!visitedTile) {
+                    row--;
+                    moved = true;
                 }
             }
+            if (!moved && row + 1 < maze.length && maze[row+1][column].equals(".")) {
+                boolean visitedTile = false;
+                for (int i = 0; i < rowCoordinates.size(); i++) {
+                    if (rowCoordinates.get(i) == row + 1 && columnCoordinates.get(i) == column) {
+                        visitedTile = true;
+                    }
+                }
+                if (!visitedTile) {
+                    row++;
+                    moved = true;
+                }
+            }
+            if (!moved && column - 1 >= 0 && maze[row][column-1].equals(".")) {
+                boolean visitedTile = false;
+                for (int i = 0; i < rowCoordinates.size(); i++) {
+                    if (rowCoordinates.get(i) == row && columnCoordinates.get(i) == column - 1) {
+                        visitedTile = true;
+                    }
+                }
+                if (!visitedTile) {
+                    column--;
+                    moved = true;
+                }
+            }
+            if (!moved && column + 1 < maze[row].length && maze[row][column+1].equals(".")) {
+                boolean visitedTile = false;
+                for (int i = 0; i < rowCoordinates.size(); i++) {
+                    if (rowCoordinates.get(i) == row && columnCoordinates.get(i) == column + 1) {
+                        visitedTile = true;
+
+                    }
+                }
+                if (!visitedTile) {
+                    column++;
+                    moved = true;
+                }
+            }
+            System.out.println("(" + row + ", " + column + ")");
         }
     }
 
