@@ -68,6 +68,14 @@ public class Main {
                     moved = true;
                 }
             }
+            if (!moved) {
+                rowCoordinates = new ArrayList<Integer>();
+                columnCoordinates = new ArrayList<Integer>();
+                rowCoordinates.add(row);
+                columnCoordinates.add(column);
+                row = 0;
+                column = 0;
+            }
             System.out.println("(" + row + ", " + column + ")");
         }
     }
